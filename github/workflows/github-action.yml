@@ -1,0 +1,76 @@
+name: github-action
+run-name: ${{ github.actor }} is out building GitHub Actions
+
+on:
+  push:
+    # Pattern matched against refs/tags
+    tags:        
+      - '**' 
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build Maven Projects
+        run: |
+          mvn clean package -f ./donate/pom.xml
+          mvn clean package -f ./request/pom.xml
+          mvn clean package -f ./bookdetail/pom.xml
+          mvn clean package -f ./books/pom.xml
+
+      - name: Docker Build and push for Donate
+        uses: docker/build-push-action@v4
+        with:
+          context: ./donate
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/donate:latest
+            ghcr.io/${{ github.repository }}/donate:${{ github.ref_name }}
+            
+      - name: Docker Build and push for Request
+        uses: docker/build-push-action@v4
+        with:
+          context: ./request
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/request:latest
+            ghcr.io/${{ github.repository }}/request:${{ github.ref_name }}
+            
+      - name: Docker Build and push for Bookdetail
+        uses: docker/build-push-action@v4
+        with:
+          context: ./bookdetail
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/bookdetail:latest
+            ghcr.io/${{ github.repository }}/bookdetail:${{ github.ref_name }}
+            
+      - name: Docker Build and push for Books
+        uses: docker/build-push-action@v4
+        with:
+          context: ./books
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/books:latest
+            ghcr.io/${{ github.repository }}/books:${{ github.ref_name }}
+            
