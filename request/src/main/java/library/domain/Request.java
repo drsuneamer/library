@@ -46,7 +46,13 @@ public class Request {
 
     //<<< Clean Arch / Port Method
     public static void updateStatus(NonexistentBook nonexistentBook) {
-        //implement business logic here:
+        //implement business logic here:\\
+
+        repository().findById(nonexistentBook.getRequestId()).ifPresent(request ->{
+            
+            request.setOrderStatus("cancelled");
+            repository().save(request);
+        });
 
         /** Example 1:  new item 
         Request request = new Request();

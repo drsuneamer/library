@@ -83,6 +83,26 @@ public class Books {
     public static void checkOutBook(CheckoutRequested checkoutRequested) {
         //implement business logic here:
 
+        repository().findById(Long.valueOf(checkoutRequested.getBookId()))
+        .ifPresentOrElse(book -> {
+            // 책이 존재하는 경우
+
+            book.setBookStatus("lent");
+            repository().save(book);
+
+            BookCheckedOut bookCheckedOut = new BookCheckedOut(book);
+            bookCheckedOut.publishAfterCommit();
+
+            
+            
+        }, () -> {
+            // 책이 존재하지 않는 경우
+            NonexistentBook nonexistentBook = new NonexistentBook();
+            nonexistentBook.setBookId(checkoutRequested.getBookId()); // bookId 설정
+            nonexistentBook.setRequestId(checkoutRequested.getRequestId()); // requestId 설정
+            nonexistentBook.publishAfterCommit();
+        });
+
         /** Example 1:  new item 
         Books books = new Books();
         repository().save(books);
