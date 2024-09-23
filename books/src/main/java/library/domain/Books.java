@@ -26,14 +26,14 @@ public class Books {
 
     @PostPersist
     public void onPostPersist() {
-        BookRegistered bookRegistered = new BookRegistered(this);
-        bookRegistered.publishAfterCommit();
+        // BookRegistered bookRegistered = new BookRegistered(this);
+        // bookRegistered.publishAfterCommit();
 
-        BookCheckedOut bookCheckedOut = new BookCheckedOut(this);
-        bookCheckedOut.publishAfterCommit();
+        // BookCheckedOut bookCheckedOut = new BookCheckedOut(this);
+        // bookCheckedOut.publishAfterCommit();
 
-        NonexistentBook nonexistentBook = new NonexistentBook(this);
-        nonexistentBook.publishAfterCommit();
+        // NonexistentBook nonexistentBook = new NonexistentBook(this);
+        // nonexistentBook.publishAfterCommit();
     }
 
     public static BooksRepository repository() {
@@ -46,6 +46,14 @@ public class Books {
     //<<< Clean Arch / Port Method
     public static void registerBook(BookDonated bookDonated) {
         //implement business logic here:
+
+        Books books = new Books();
+        books.setBookId(bookDonated.getBookId());
+        books.setBookStatus("registered");
+        repository().save(books);
+
+        BookRegistered bookRegistered = new BookRegistered(books);
+        bookRegistered.publishAfterCommit();
 
         /** Example 1:  new item 
         Books books = new Books();
