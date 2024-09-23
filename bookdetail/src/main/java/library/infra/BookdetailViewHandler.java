@@ -37,15 +37,15 @@ public class BookdetailViewHandler {
     }
 
     @StreamListener(KafkaProcessor.INPUT)
-    public void whenBookCheckedOUt_then_UPDATE_1(
-        @Payload BookCheckedOUt bookCheckedOUt
+    public void whenBookCheckedOut_then_UPDATE_1(
+        @Payload BookCheckedOut bookCheckedOut
     ) {
         try {
-            if (!bookCheckedOUt.validate()) return;
+            if (!bookCheckedOut.validate()) return;
             // view 객체 조회
 
             List<Bookdetail> bookdetailList = bookdetailRepository.findByBookId(
-                bookCheckedOUt.getBookId()
+                bookCheckedOut.getBookId()
             );
             for (Bookdetail bookdetail : bookdetailList) {
                 // view 객체에 이벤트의 eventDirectValue 를 set 함
