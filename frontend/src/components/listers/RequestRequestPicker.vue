@@ -21,7 +21,7 @@
                                 RequestId :  {{item.requestId }}
                             </v-list-item-subtitle>
                             <v-list-item-subtitle>
-                                Status :  {{item.status }}
+                                OrderStatus :  {{item.orderStatus }}
                             </v-list-item-subtitle>
                         </v-list-item-content>
 

@@ -110,6 +110,7 @@
             
             me.newValue = {
                 'bookId': 0,
+                'bookStatus': '',
             }
         },
         methods:{

@@ -69,7 +69,7 @@
                     { text: "id", value: "id" },
                     { text: "bookId", value: "bookId" },
                     { text: "requestId", value: "requestId" },
-                    { text: "status", value: "status" },
+                    { text: "orderStatus", value: "orderStatus" },
                 ],
             request : [],
             newValue: {},
@@ -89,7 +89,7 @@
             this.newValue = {
                 'bookId': 0,
                 'requestId': 0,
-                'status': '',
+                'orderStatus': '',
             }
         },
         methods: {

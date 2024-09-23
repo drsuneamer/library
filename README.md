@@ -39,14 +39,14 @@ mvn spring-boot:run
 ```
 - request
 ```
- http :8088/requests id="id" bookId="bookId" requestId="requestId" status="status" 
+ http :8088/requests id="id" bookId="bookId" requestId="requestId" orderStatus="orderStatus" 
 ```
 - bookdetail
 ```
 ```
 - books
 ```
- http :8088/books id="id" bookId="bookId" 
+ http :8088/books id="id" bookId="bookId" bookStatus="bookStatus" 
 ```
 
 

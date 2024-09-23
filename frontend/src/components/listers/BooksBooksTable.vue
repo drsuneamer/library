@@ -68,6 +68,7 @@
                 [
                     { text: "id", value: "id" },
                     { text: "bookId", value: "bookId" },
+                    { text: "bookStatus", value: "bookStatus" },
                 ],
             books : [],
             newValue: {},
@@ -86,6 +87,7 @@
 
             this.newValue = {
                 'bookId': 0,
+                'bookStatus': '',
             }
         },
         methods: {

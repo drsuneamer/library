@@ -50,7 +50,7 @@
                             [ Id :  {{data.id }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             [ BookId :  {{data.bookId }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             [ RequestId :  {{data.requestId }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            [ Status :  {{data.status }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            [ OrderStatus :  {{data.orderStatus }} ] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </v-list-item-subtitle>
 
                     </v-list-item-content>
@@ -120,7 +120,7 @@
             this.newValue = {
                 'bookId': 0,
                 'requestId': 0,
-                'status': '',
+                'orderStatus': '',
             }
         },
         methods: {

@@ -17,6 +17,7 @@
 
         <v-card-text>
             <Number label="BookId" v-model="value.bookId" :editMode="editMode" :inputUI="''"/>
+            <String label="BookStatus" v-model="value.bookStatus" :editMode="editMode" :inputUI="''"/>
         </v-card-text>
 
         <v-card-actions>
