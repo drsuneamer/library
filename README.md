@@ -1,91 +1,44 @@
-# 
 
-## Model
-www.msaez.io/#/97646668/storming/bookstore
+## KAFKA pub/sub
 
-## Before Running Services
-### Make sure there is a Kafka server running
 ```
-cd kafka
-docker-compose up
-```
-- Check the Kafka messages:
-```
-cd infra
-docker-compose exec -it kafka /bin/bash
-cd /bin
-./kafka-console-consumer --bootstrap-server localhost:9092 --topic
+📑 시나리오
+donate microservice의 BookDonated 이벤트가 publish되면, books microservice의 BookRegistered 이벤트가 subscribe한다.
 ```
 
-## Run the backend micro-services
-See the README.md files inside the each microservices directory:
+event 발생 이전
+- 발생한 donate 없음
 
-- donate
-- request
-- bookdetail
-- books
+![image](https://github.com/user-attachments/assets/97012543-d3f5-454f-9ad9-f0bf2d03790b)
 
 
-## Run API Gateway (Spring Gateway)
-```
-cd gateway
-mvn spring-boot:run
-```
-
-## Test by API
-- donate
-```
- http :8088/donates id="id" bookId="bookId" 
-```
-- request
-```
- http :8088/requests id="id" bookId="bookId" requestId="requestId" orderStatus="orderStatus" 
-```
-- bookdetail
-```
-```
-- books
-```
- http :8088/books id="id" bookId="bookId" bookStatus="bookStatus" 
-```
 
 
-## Run the frontend
-```
-cd frontend
-npm i
-npm run serve
-```
+- books에 등록된 책 없음
 
-## Test by UI
-Open a browser to localhost:8088
 
-## Required Utilities
+![image](https://github.com/user-attachments/assets/0334b722-07c6-4cef-9ef1-f8b6c2621a71)
 
-- httpie (alternative for curl / POSTMAN) and network utils
-```
-sudo apt-get update
-sudo apt-get install net-tools
-sudo apt install iputils-ping
-pip install httpie
-```
 
-- kubernetes utilities (kubectl)
-```
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-```
+donate 이벤트 발생 (bookId=1)
 
-- aws cli (aws)
-```
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip awscliv2.zip
-sudo ./aws/install
-```
+- bookId=1 등록 확인
 
-- eksctl 
-```
-curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
-sudo mv /tmp/eksctl /usr/local/bin
-```
+![image](https://github.com/user-attachments/assets/30c890e0-a1a7-40eb-a26c-97f0c72a8ee7)
+
+
+event consumer 확인
+
+- bookDonated(pub)에 이어 bookRegistered(sub) 확인
+
+![image](https://github.com/user-attachments/assets/4c5ae699-9e2b-4483-aa87-cdd55999a285)
+
+
+books에 정상적으로 등록되었는지 확인
+
+![image](https://github.com/user-attachments/assets/bdb2f370-f730-4069-9802-7124eb28806f)
+
+
+
+
 
