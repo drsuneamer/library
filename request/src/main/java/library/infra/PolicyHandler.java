@@ -25,14 +25,14 @@ public class PolicyHandler {
 
     @StreamListener(
         value = KafkaProcessor.INPUT,
-        condition = "headers['type']=='AlreadyCheckedOut'"
+        condition = "headers['type']=='NonexistentBook'"
     )
-    public void wheneverAlreadyCheckedOut_UpdateStatus(
-        @Payload AlreadyCheckedOut alreadyCheckedOut
+    public void wheneverNonexistentBook_UpdateStatus(
+        @Payload NonexistentBook nonexistentBook
     ) {
-        AlreadyCheckedOut event = alreadyCheckedOut;
+        NonexistentBook event = nonexistentBook;
         System.out.println(
-            "\n\n##### listener UpdateStatus : " + alreadyCheckedOut + "\n\n"
+            "\n\n##### listener UpdateStatus : " + nonexistentBook + "\n\n"
         );
 
         // Sample Logic //

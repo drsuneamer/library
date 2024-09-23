@@ -45,7 +45,7 @@ public class Request {
     }
 
     //<<< Clean Arch / Port Method
-    public static void updateStatus(AlreadyCheckedOut alreadyCheckedOut) {
+    public static void updateStatus(NonexistentBook nonexistentBook) {
         //implement business logic here:
 
         /** Example 1:  new item 
@@ -56,7 +56,7 @@ public class Request {
 
         /** Example 2:  finding and process
         
-        repository().findById(alreadyCheckedOut.get???()).ifPresent(request->{
+        repository().findById(nonexistentBook.get???()).ifPresent(request->{
             
             request // do something
             repository().save(request);
