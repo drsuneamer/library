@@ -5,9 +5,9 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 import library.BooksApplication;
-import library.domain.AlreadyCheckedOut;
 import library.domain.BookCheckedOUt;
 import library.domain.BookRegistered;
+import library.domain.NonexistentBook;
 import lombok.Data;
 
 @Entity
@@ -30,8 +30,8 @@ public class Books {
         BookCheckedOUt bookCheckedOUt = new BookCheckedOUt(this);
         bookCheckedOUt.publishAfterCommit();
 
-        AlreadyCheckedOut alreadyCheckedOut = new AlreadyCheckedOut(this);
-        alreadyCheckedOut.publishAfterCommit();
+        NonexistentBook nonexistentBook = new NonexistentBook(this);
+        nonexistentBook.publishAfterCommit();
     }
 
     public static BooksRepository repository() {
@@ -79,8 +79,8 @@ public class Books {
 
         BookCheckedOUt bookCheckedOUt = new BookCheckedOUt(books);
         bookCheckedOUt.publishAfterCommit();
-        AlreadyCheckedOut alreadyCheckedOut = new AlreadyCheckedOut(books);
-        alreadyCheckedOut.publishAfterCommit();
+        NonexistentBook nonexistentBook = new NonexistentBook(books);
+        nonexistentBook.publishAfterCommit();
         */
 
         /** Example 2:  finding and process
@@ -92,8 +92,8 @@ public class Books {
 
             BookCheckedOUt bookCheckedOUt = new BookCheckedOUt(books);
             bookCheckedOUt.publishAfterCommit();
-            AlreadyCheckedOut alreadyCheckedOut = new AlreadyCheckedOut(books);
-            alreadyCheckedOut.publishAfterCommit();
+            NonexistentBook nonexistentBook = new NonexistentBook(books);
+            nonexistentBook.publishAfterCommit();
 
          });
         */
