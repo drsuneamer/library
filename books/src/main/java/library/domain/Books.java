@@ -22,6 +22,8 @@ public class Books {
 
     private Long bookId;
 
+    private String bookStatus;
+
     @PostPersist
     public void onPostPersist() {
         // BookRegistered bookRegistered = new BookRegistered(this);

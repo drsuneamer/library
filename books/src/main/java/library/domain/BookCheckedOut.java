@@ -13,6 +13,7 @@ public class BookCheckedOut extends AbstractEvent {
 
     private Long id;
     private Long bookId;
+    private String bookStatus;
 
     public BookCheckedOut(Books aggregate) {
         super(aggregate);

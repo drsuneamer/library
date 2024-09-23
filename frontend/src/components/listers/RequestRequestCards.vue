@@ -111,7 +111,7 @@
             me.newValue = {
                 'bookId': 0,
                 'requestId': 0,
-                'status': '',
+                'orderStatus': '',
             }
         },
         methods:{

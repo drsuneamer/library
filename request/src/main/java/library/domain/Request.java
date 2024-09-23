@@ -22,7 +22,7 @@ public class Request {
 
     private Long requestId;
 
-    private String status;
+    private String orderStatus;
 
     @PostPersist
     public void onPostPersist() {

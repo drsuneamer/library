@@ -18,7 +18,7 @@
         <v-card-text>
             <Number label="BookId" v-model="value.bookId" :editMode="editMode" :inputUI="''"/>
             <Number label="RequestId" v-model="value.requestId" :editMode="editMode" :inputUI="''"/>
-            <String label="Status" v-model="value.status" :editMode="editMode" :inputUI="''"/>
+            <String label="OrderStatus" v-model="value.orderStatus" :editMode="editMode" :inputUI="''"/>
         </v-card-text>
 
         <v-card-actions>
