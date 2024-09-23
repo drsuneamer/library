@@ -14,7 +14,6 @@ public class CheckoutRequested extends AbstractEvent {
     private Long id;
     private Long bookId;
     private Long requestId;
-    private String status;
 
     public CheckoutRequested(Request aggregate) {
         super(aggregate);
