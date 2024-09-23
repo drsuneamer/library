@@ -40,6 +40,8 @@ public class Request {
     public void requestCheckout() {
         //implement business logic here:
 
+        CheckoutRequested checkoutRequested = new CheckoutRequested(this);
+        checkoutRequested.publishAfterCommit();
     }
 
     //<<< Clean Arch / Port Method
