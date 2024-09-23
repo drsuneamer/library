@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 import library.BooksApplication;
-import library.domain.BookCheckedOUt;
+import library.domain.BookCheckedOut;
 import library.domain.BookRegistered;
 import library.domain.NonexistentBook;
 import lombok.Data;
@@ -27,8 +27,8 @@ public class Books {
         BookRegistered bookRegistered = new BookRegistered(this);
         bookRegistered.publishAfterCommit();
 
-        BookCheckedOUt bookCheckedOUt = new BookCheckedOUt(this);
-        bookCheckedOUt.publishAfterCommit();
+        BookCheckedOut bookCheckedOut = new BookCheckedOut(this);
+        bookCheckedOut.publishAfterCommit();
 
         NonexistentBook nonexistentBook = new NonexistentBook(this);
         nonexistentBook.publishAfterCommit();
@@ -77,8 +77,8 @@ public class Books {
         Books books = new Books();
         repository().save(books);
 
-        BookCheckedOUt bookCheckedOUt = new BookCheckedOUt(books);
-        bookCheckedOUt.publishAfterCommit();
+        BookCheckedOut bookCheckedOut = new BookCheckedOut(books);
+        bookCheckedOut.publishAfterCommit();
         NonexistentBook nonexistentBook = new NonexistentBook(books);
         nonexistentBook.publishAfterCommit();
         */
@@ -90,8 +90,8 @@ public class Books {
             books // do something
             repository().save(books);
 
-            BookCheckedOUt bookCheckedOUt = new BookCheckedOUt(books);
-            bookCheckedOUt.publishAfterCommit();
+            BookCheckedOut bookCheckedOut = new BookCheckedOut(books);
+            bookCheckedOut.publishAfterCommit();
             NonexistentBook nonexistentBook = new NonexistentBook(books);
             nonexistentBook.publishAfterCommit();
 
