@@ -13,10 +13,11 @@ spec:
     metadata:
       labels:
         app: books
+        
     spec:
       containers:
         - name: books
-          image: "username/books:latest"
+          image: "user16.azurecr.io/books:latest"
           ports:
             - containerPort: 8080
           readinessProbe:
