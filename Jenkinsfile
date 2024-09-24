@@ -21,7 +21,9 @@ pipeline {
         stage('Maven Build') {
             steps {
                 withMaven(maven: 'Maven') {
-                    sh 'mvn package -DskipTests'
+                    dir('books') {    
+                        sh 'mvn package -DskipTests'
+                    }
                 }
             }
         }
