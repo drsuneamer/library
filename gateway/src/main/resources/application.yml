@@ -20,6 +20,7 @@ spring:
         - id: bookdetail
           uri: http://localhost:8084
           predicates:
+            #- Path=,
             - Path=/bookdetails, 
         - id: books
           uri: http://localhost:8085
@@ -60,7 +61,7 @@ spring:
         - id: bookdetail
           uri: http://bookdetail:8080
           predicates:
-            - Path=, 
+            - Path=/bookdetails, 
         - id: books
           uri: http://books:8080
           predicates:
