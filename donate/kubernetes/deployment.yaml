@@ -13,10 +13,11 @@ spec:
     metadata:
       labels:
         app: donate
+        sidecar.istio.io/inject: "true"
     spec:
       containers:
         - name: donate
-          image: "username/donate:latest"
+          image: "drsuneamerr/donate:v2"
           ports:
             - containerPort: 8080
           readinessProbe:
