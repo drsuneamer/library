@@ -269,50 +269,51 @@ public static void checkOutBook(CheckoutRequested checkoutRequested) {
 1. book을 등록한다 (bookId=1)
     
     `http localhost:8088/donates bookId=1`
+   
     ![image](https://github.com/user-attachments/assets/2366ee77-5456-4bbb-9b94-22586522f08e)
 
     
-2. request를 등록한다 (bookId=1, requestId=1, orderStatus=requested)
+3. request(bookId 1 책 대여 요청)를 등록한다 (bookId=1, requestId=1, orderStatus=requested)
     
     `http localhost:8088/requests bookId=1 requestId=1 orderStatus=requested`
     
    ![image](https://github.com/user-attachments/assets/7e0b63ec-73c3-4113-aaeb-a03d3b405345)
 
     
-3. requests의 상태 확인한다
+4. requests의 상태 확인한다
     
     `http localhost:8088/requests/1`
     
    ![image](https://github.com/user-attachments/assets/6d5a5320-dbaf-4c1d-94c8-f4c40f293116)
 
     
-4. books의 상태 확인한다 (bookStatus=lent)
+5. books의 상태 확인한다 (bookStatus=lent)
     
     `http localhost:8088/books/1`
     
     ![image](https://github.com/user-attachments/assets/3079090e-01f0-4b4d-b33f-0af73bfc69c9)
 
     
-5. request를 등록한다 (bookId=2, requestId=2, orderStatus=requested)
+6. request를 등록한다 (bookId=2, requestId=2, orderStatus=requested)
     
     `http localhost:8088/requests bookId=2 requestId=2 orderStatus=requested`
     
     ![image](https://github.com/user-attachments/assets/e54b6de8-43b9-4aba-b7d0-ea12a01f3897)
 
     
-6. request/2의 상태 확인한다 (cancelled여야 함)
+7. request/2의 상태 확인한다 (cancelled여야 함)
     
     `http localhost:8088/requests/2`
     
     ![image](https://github.com/user-attachments/assets/25bd9ac4-7e1d-444a-844b-900d2466162d)
 
     
-7. books에는 bookId=2가 없음 재확인
+8. books에는 bookId=2가 없음 재확인
     
     ![image](https://github.com/user-attachments/assets/48ce2b4c-130a-4272-ba3b-8866a61348b5)
 
     
-8. consumer 확인 
+9. consumer 확인 
     
     ![image](https://github.com/user-attachments/assets/42e1c054-efcd-4312-9eed-54c4da28ad80)
 
@@ -353,6 +354,9 @@ bookdetails에서 "등록됨" 상태로 조회 가능
 
 ReadModel 관련 서비스 제외 다른 모델 종료 후에도 정상 조회 확인
 
+![image](https://github.com/user-attachments/assets/b10f9549-b4ff-42c6-bc47-a944b756b8ef)
+
+
 ![image](https://github.com/user-attachments/assets/90027d36-1133-496c-b932-c9cf1092702c)
 
 
@@ -364,6 +368,29 @@ ReadModel 관련 서비스 제외 다른 모델 종료 후에도 정상 조회 �
 ## 📊 Ops
 
 Azure 서비스를 이용하여 클라우드 환경에서의 Kubernetes 클러스터에 배포하여 서비스를 운영한다.
+
+Azure portal에서 Kubernetes Service, Conatiner Registry 등 생성
+
+![image](https://github.com/user-attachments/assets/07e6708d-073d-4b11-8072-559b7d864bff)
+
+dockerhub에 이미지들을 업로드하고, 각 서비스의 deployment.yaml이 그 이미지들을 바라보게 하여 클러스터에 서비스들을 배포한다.
+
+![image](https://github.com/user-attachments/assets/a8adcdde-59f5-46ef-bb10-ecf9493e244c)
+
+```
+mvn package -B -Dmaven.test.skip=true
+
+(jar 확인)
+
+ docker build -t drsuneamerr/gateway:v1 .     
+ docker push drsuneamerr/gateway:v1
+
+(yaml 설정 변경)
+kubectl apply -f kubernetes/deployment.yaml
+kubectl apply -f kubernetes/service.yaml
+```
+
+
 
 각 서비스의 클라우드 배포 확인 및 gateway의 IP 확인
 
