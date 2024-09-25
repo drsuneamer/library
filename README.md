@@ -580,6 +580,54 @@ donate replicaset 수를 3개로 늘려본다
 
 ![image](https://github.com/user-attachments/assets/e5875087-40a4-4e58-8cf5-ab20617506ff)
 
+routing rule 설정
+
+```yaml
+kubectl apply -f - <<EOF
+apiVersion: networking.k8s.io/v1
+kind: "Ingress"
+metadata:
+  name: "library-ingress"
+  namespace: istio-system
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    ingressclass.kubernetes.io/is-default-class: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: ""
+      http:
+        paths:
+          - path: /kiali
+            pathType: Prefix
+            backend:
+              service:
+                name: kiali
+                port:
+                  number: 20001
+          - path: /grafana
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 3000
+          - path: /prometheus
+            pathType: Prefix
+            backend:
+              service:
+                name: prometheus
+                port:
+                  number: 9090
+          - path: /loki
+            pathType: Prefix
+            backend:
+              service:
+                name: loki
+                port:
+                  number: 3100
+EOF
+```
 
 Kiali를 이용한 Monitoring 
 
