@@ -168,12 +168,14 @@ server:
 
 ### SAGA - KAFKA pub/sub
 
-kafka: pub/sub 모델의 메시지 큐 형태로 동작하는
+kafka: pub/sub 모델의 메시지 큐 형태로 동작하는 분산형 데이터 스트리밍 플랫폼
+
 
 ```
 📑 시나리오
 donate microservice의 BookDonated 이벤트가 publish되면, books microservice의 BookRegistered 이벤트가 subscribe한다.
 ```
+
 
 event 발생 이전
 - 발생한 donate 없음
@@ -186,6 +188,26 @@ event 발생 이전
 
 
 ![image](https://github.com/user-attachments/assets/133ab680-eb10-4161-82a8-71ac8be357df)
+
+
+
+PolicyHandler.java에 BookDonated 이벤트 발생시 registerBook() 트리거하게 설정되어있음
+
+```java
+// PolicyHandler.java
+
+public void wheneverBookDonated_RegisterBook(
+        @Payload BookDonated bookDonated
+    ) {
+        BookDonated event = bookDonated;
+        System.out.println(
+            "\n\n##### listener RegisterBook : " + bookDonated + "\n\n"
+        );
+
+        // Sample Logic //
+        Books.registerBook(event);
+    }
+```
 
 
 
@@ -210,46 +232,6 @@ books에 정상적으로 등록되었는지 확인
 
 
 ![image](https://github.com/user-attachments/assets/13b9c076-d4c8-4be7-a9f5-c989086bfddf)
-
-
-
-
-### CQRS - 분산 데이터 프로젝션
-
-CQRS: 읽기와 업데이트 작업을 분리한다.
-읽기 모델을 따로 분리하여 조회 성능을 높이고, 장애에서 격리한다.
-해당 서비스에서는 책들의 대여 상태만을 조회하는 ReadModel을 분리하여 테스트한다.
-
-```
-📑 시나리오
-donate microservice의 BookDonated 이벤트가 publish되면, books microservice의 BookRegistered 이벤트가 subscribe한다.
-```
-
-책 기부 이벤트가 발생하면
-
-![image](https://github.com/user-attachments/assets/c53461fd-ca5e-46a1-8b80-ee5d98f15240)
-
-bookdetails에서 "등록됨" 상태로 조회 가능
-
-![image](https://github.com/user-attachments/assets/1305dfb8-49f7-427a-9862-e1a51c232475)
-
-책 여러개 등록 시에는 여러 개 조회 가능
-
-![image](https://github.com/user-attachments/assets/9471bf94-ef0d-4733-882c-fe7a0b229fd2)
-
-대여 요청 정상 처리된 이후에도 확인
-`http localhost:8088/requests bookId=1 requestId=1 orderStatus=requested`
-
-![image](https://github.com/user-attachments/assets/c000b90d-026f-4b1d-94f2-bc5ddbd95f94)
-
-해당 bookId의 상태가 "대여완료됨" 으로 바뀐 것 확인
-
-![image](https://github.com/user-attachments/assets/eed932f1-da3c-4eb4-aaee-05cc0ea49392)
-
-ReadModel 관련 서비스 제외 다른 모델 종료 후에도 정상 조회 확인
-
-![image](https://github.com/user-attachments/assets/90027d36-1133-496c-b932-c9cf1092702c)
-
 
 
 ### Compensation
@@ -335,6 +317,47 @@ public static void checkOutBook(CheckoutRequested checkoutRequested) {
     ![image](https://github.com/user-attachments/assets/42e1c054-efcd-4312-9eed-54c4da28ad80)
 
     
+
+
+### CQRS - 분산 데이터 프로젝션
+
+CQRS: 읽기와 업데이트 작업을 분리한다.
+읽기 모델을 따로 분리하여 조회 성능을 높이고, 장애에서 격리한다.
+해당 서비스에서는 책들의 대여 상태만을 조회하는 ReadModel을 분리하여 테스트한다.
+
+```
+📑 시나리오
+donate microservice의 BookDonated 이벤트가 publish되면, books microservice의 BookRegistered 이벤트가 subscribe한다.
+```
+
+책 기부 이벤트가 발생하면
+
+![image](https://github.com/user-attachments/assets/c53461fd-ca5e-46a1-8b80-ee5d98f15240)
+
+bookdetails에서 "등록됨" 상태로 조회 가능
+
+![image](https://github.com/user-attachments/assets/1305dfb8-49f7-427a-9862-e1a51c232475)
+
+책 여러개 등록 시에는 여러 개 조회 가능
+
+![image](https://github.com/user-attachments/assets/9471bf94-ef0d-4733-882c-fe7a0b229fd2)
+
+대여 요청 정상 처리된 이후에도 확인
+`http localhost:8088/requests bookId=1 requestId=1 orderStatus=requested`
+
+![image](https://github.com/user-attachments/assets/c000b90d-026f-4b1d-94f2-bc5ddbd95f94)
+
+해당 bookId의 상태가 "대여완료됨" 으로 바뀐 것 확인
+
+![image](https://github.com/user-attachments/assets/eed932f1-da3c-4eb4-aaee-05cc0ea49392)
+
+ReadModel 관련 서비스 제외 다른 모델 종료 후에도 정상 조회 확인
+
+![image](https://github.com/user-attachments/assets/90027d36-1133-496c-b932-c9cf1092702c)
+
+
+
+
 
 ---
 
