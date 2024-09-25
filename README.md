@@ -14,9 +14,19 @@
 4. 존재하지 않는 책의 대여 요청은 실패한다.
 5. 현재 등록된 책들의 대여 상태를 확인할 수 있다.
 
-### 아키텍처 구성도
+### 아키텍처 설계
 
-![image](https://github.com/user-attachments/assets/dcb05707-4eb9-42f4-b7c9-6ee919ed6c93)
+![image](https://github.com/user-attachments/assets/c574be5a-cebb-4c00-a733-5ebb6aa300bc)
+
+
+- gateway를 단일 진입점으로 각 서비스 routing
+- kafka를 통한 pub/sub (서비스간의 분리)
+- Secret 설정을 통한 배포 환경 분리
+- HPA를 통한 auto scaling
+- Azure PVC 클라우드 스토리지 활용
+- Jenkins를 이용한 자동 CI/CD
+- Istio를 이용한 service mesh
+- grafana, prometheus를 이용한 통합 모니터링
 
 ### 이벤트스토밍
 
@@ -45,6 +55,11 @@
 spring cloud gateway - gateway 서비스의 application.yml에 설정 작성
 
 ```yml
+server:
+  port: 8088
+
+---
+
 spring:
   profiles: default
   cloud:
@@ -62,6 +77,7 @@ spring:
         - id: bookdetail
           uri: http://localhost:8084
           predicates:
+            #- Path=,
             - Path=/bookdetails, 
         - id: books
           uri: http://localhost:8085
@@ -71,6 +87,59 @@ spring:
           uri: http://localhost:8080
           predicates:
             - Path=/**
+#>>> API Gateway / Routes
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    gateway:
+      routes:
+        - id: donate
+          uri: http://donate:8080
+          predicates:
+            - Path=/donates/**, 
+        - id: request
+          uri: http://request:8080
+          predicates:
+            - Path=/requests/**, 
+        - id: bookdetail
+          uri: http://bookdetail:8080
+          predicates:
+            - Path=/bookdetails, 
+        - id: books
+          uri: http://books:8080
+          predicates:
+            - Path=/books/**, 
+        - id: frontend
+          uri: http://frontend:8080
+          predicates:
+            - Path=/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+server:
+  port: 8080
 ```
 
 
@@ -97,7 +166,7 @@ spring:
 
 
 
-### KAFKA pub/sub
+### SAGA - KAFKA pub/sub
 
 kafka: pub/sub 모델의 메시지 큐 형태로 동작하는
 
@@ -145,7 +214,7 @@ books에 정상적으로 등록되었는지 확인
 
 
 
-### CQRS
+### CQRS - 분산 데이터 프로젝션
 
 CQRS: 읽기와 업데이트 작업을 분리한다.
 읽기 모델을 따로 분리하여 조회 성능을 높이고, 장애에서 격리한다.
