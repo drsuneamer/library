@@ -99,6 +99,8 @@ spring:
 
 ### KAFKA pub/sub
 
+kafka: pub/sub 모델의 메시지 큐 형태로 동작하는
+
 ```
 📑 시나리오
 donate microservice의 BookDonated 이벤트가 publish되면, books microservice의 BookRegistered 이벤트가 subscribe한다.
@@ -460,8 +462,7 @@ donate replicaset 수를 3개로 늘려본다
 ![image](https://github.com/user-attachments/assets/e5875087-40a4-4e58-8cf5-ab20617506ff)
 
 
-
-### Kiali를 이용한 Monitoring 
+Kiali를 이용한 Monitoring 
 
 injection 이전에는 sidecar가 missing 상태
 
@@ -496,6 +497,43 @@ sidecar 설정 완료 후 Ready 상태 2/2로 모두 변경됨
 
 
 ![image](https://github.com/user-attachments/assets/b700b766-dd5d-4f4d-b03f-13068983d0f6)
+
+
+### Monitoring
+
+![image](https://github.com/user-attachments/assets/63f4c061-a816-4868-86a1-2e9ac5e8b898)
+
+grafana와 prometheus external ip 확인
+
+![image](https://github.com/user-attachments/assets/71332f0f-f6e2-4b66-b65a-d36804bd8c4f)
+
+조회한 external ip의 9090 포트로 prometheus 접속
+
+![image](https://github.com/user-attachments/assets/45964822-c3c6-4bce-92ba-3fec92a90aaa)
+
+
+istio_requests_total 메트릭 이용하여 요청 조회
+
+![image](https://github.com/user-attachments/assets/34729696-cefd-4e37-9af2-d8a6e49a003f)
+
+
+books 서비스에 부하 발생시켜본다. `siege -c20 -t30S -v http://20.249.65.252:8080/books`
+
+![image](https://github.com/user-attachments/assets/31a358e9-690b-41e1-9ac8-8217ac70aa67)
+
+
+실행시킨 부하 모니터링 확인
+`rate(istio_requests_total{app="books",destination_service="books.default.svc.cluster.local",response_code="200"}[5m])`
+
+![image](https://github.com/user-attachments/assets/c7aca82a-cfb3-4dec-8124-a2afebf9232b)
+
+
+grafana에서도 books 서비스에 적용한 부하 그래프로 모니터링 가능
+
+![image](https://github.com/user-attachments/assets/90db9343-b040-4eaa-80e1-4f4fcefa6b14)
+
+
+![image](https://github.com/user-attachments/assets/dd82be77-b97f-43a6-b9a0-71ed493040e2)
 
 
 
