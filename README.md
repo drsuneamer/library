@@ -30,7 +30,8 @@
 
 ### 이벤트스토밍
 
-![image](https://github.com/user-attachments/assets/311d32d2-6e92-4c62-9e50-23861c197f2a)
+![image](https://github.com/user-attachments/assets/b4f1e52b-2a59-490b-9e5f-dd428319b71b)
+
 
 - 총 4개의 Bounded Context (기능 기준 분류)
   - donate [bookId]
